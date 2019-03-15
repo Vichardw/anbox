@@ -74,6 +74,9 @@ class Platform : public std::enable_shared_from_this<Platform>,
   void process_events();
   void process_input_event(const SDL_Event &event);
 
+  bool calculate_touch_coordinates(const SDL_Event &event, std::int32_t &x,
+                                   std::int32_t &y);
+
   static Window::Id next_window_id();
 
   std::shared_ptr<Renderer> renderer_;
@@ -87,8 +90,11 @@ class Platform : public std::enable_shared_from_this<Platform>,
   bool event_thread_running_;
   std::shared_ptr<input::Device> pointer_;
   std::shared_ptr<input::Device> keyboard_;
+  std::shared_ptr<input::Device> touch_;
+  graphics::Rect display_frame_;
   bool window_size_immutable_ = false;
   bool single_window_ = false;
+  std::uint32_t focused_sdl_window_id_ = 0;
 };
 } // namespace sdl
 } // namespace platform
